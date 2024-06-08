@@ -32,8 +32,17 @@ func CreateJWT(secret []byte, userID string, jwtExpirationInSeconds int64) (stri
 func WithJWTAuth(handlerFunc http.HandlerFunc, secret string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tokenString := getTokenFromReq(r)
+		fmt.Println(tokenString)
+		const BEARER_SCHEME = "Bearer "
+		if tokenString == "" {
+			log.Printf("failed to validate token: token not passed")
+			permissionDenied(w)
+			return
+		}
+		newTokenString := tokenString[len(BEARER_SCHEME):]
+		fmt.Println(newTokenString)
 
-		token, err := validateToken(tokenString, secret)
+		token, err := validateToken(newTokenString, secret)
 		if err != nil {
 			log.Printf("failed to validate token: %v", err)
 			permissionDenied(w)
