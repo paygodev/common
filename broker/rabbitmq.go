@@ -10,7 +10,7 @@ import (
 	"go.opentelemetry.io/otel"
 )
 
-const MaxRetryCount = 60
+const MaxRetryCount = 300
 const DLQ = "dlq_main"
 
 func Connect(user, pass, host, port string) (*amqp.Channel, func() error) {
@@ -38,6 +38,11 @@ func Connect(user, pass, host, port string) (*amqp.Channel, func() error) {
 	}
 
 	err = ch.ExchangeDeclare(AirtelCollectionStatusEvent, "direct", true, false, false, false, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = ch.ExchangeDeclare(CreateCollectionEvent, "direct", true, false, false, false, nil)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+option go_package = "github.com/paygodev/common/api/mmp";
+
+package mmp;
+
+message AuthRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message AuthResponse {
+    string token = 1;
+    string status = 2;
+    string message = 3;
+}
+
+service AuthService {
+    rpc Authntication(AuthRequest) returns (AuthResponse);
+}
+
+message CollectionAPIRequest {
+    string phoneNumber = 1;
+    string amount = 2;
+    string narration = 3;
+    string serialNumber = 4;
+    string location = 5;
+}
+
+message CreateCollectionRequest {
+    string phoneNumber = 1;
+    string amount = 2;
+    string narration = 3;
+    string serialNumber = 4;
+    string location = 5;
+    string userID = 6;
+}
+
+message CollectionRequest {
+    string phoneNumber = 1;
+    string amount = 2;
+    string reference = 3;
+    string transactionid = 4;
+}
+
+message CollectionResponse {
+    string transactionid = 1;
+    string status = 2;
+    string message = 3;
+    string mno = 4;
+}
+
+message CollectionStatusResponse {
+    string transactionid = 1;
+    string mnoRefId =2;
+    string status = 3;
+    string mnoStatusdescription = 4;
+}
+
+message InsertTransactionRequest {
+    string transactionid = 1;
+    string mnoRef = 2;
+    string disbursementID = 3;
+    string merchantID = 4;
+    string branchID = 5;
+    string userID = 6;
+    string deviceID = 7;
+    string location = 8;
+    string phoneNumber = 9;
+    string collectionAmount = 10;
+    string collectionCharge = 11;
+    string settlementAmount = 12;
+    string settlementCharge = 13;
+    bool isRealTimeSettlement = 14;
+    string mno = 15;
+    string narration = 16;
+    bool isAutomatedSettlement = 17;
+    string bankID = 18;
+    string accountNumber = 19;
+}
+service CollectionService {
+    rpc MakeCollection(CreateCollectionRequest) returns (CollectionResponse);
+    rpc CollectionStatus(CollectionResponse) returns (CollectionResponse);
+    rpc CreateCollection(InsertTransactionRequest) returns (CollectionResponse);
+}
