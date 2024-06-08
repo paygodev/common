@@ -1,4 +1,4 @@
-module github.com/paygodev/mmp_backend_services/common
+module github.com/paygodev/common
 
 go 1.22.3
 
