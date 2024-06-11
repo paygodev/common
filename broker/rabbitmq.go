@@ -10,7 +10,6 @@ import (
 	"go.opentelemetry.io/otel"
 )
 
-const MaxRetryCount = 300
 const DLQ = "dlq_main"
 
 func Connect(user, pass, host, port string) (*amqp.Channel, func() error) {
@@ -47,6 +46,41 @@ func Connect(user, pass, host, port string) (*amqp.Channel, func() error) {
 		log.Fatal(err)
 	}
 
+	err = ch.ExchangeDeclare(UpdateCollectionEvent, "direct", true, false, false, false, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = ch.ExchangeDeclare(IZBDisbursementEvent, "direct", true, false, false, false, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = ch.ExchangeDeclare(IZBDisbursementStatusEvent, "direct", true, false, false, false, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = ch.ExchangeDeclare(UpdateDisbursementStatusEvent, "direct", true, false, false, false, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = ch.ExchangeDeclare(ZANACODisbursementEvent, "direct", true, false, false, false, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = ch.ExchangeDeclare(TimeoutCollectionEvent, "direct", true, false, false, false, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = ch.ExchangeDeclare(UpdateTimeoutCollectionEvent, "direct", true, false, false, false, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	err = createDLQAndDLX(ch)
 	if err != nil {
 		log.Fatal(err)
@@ -56,7 +90,7 @@ func Connect(user, pass, host, port string) (*amqp.Channel, func() error) {
 	return ch, conn.Close
 }
 
-func HandleRetry(ch *amqp.Channel, d *amqp.Delivery) error {
+func HandleRetry(ch *amqp.Channel, d *amqp.Delivery, MaxRetryCount int64) error {
 	if d.Headers == nil {
 		d.Headers = amqp.Table{}
 	}

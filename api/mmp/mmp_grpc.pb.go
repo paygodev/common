@@ -110,9 +110,12 @@ var AuthService_ServiceDesc = grpc.ServiceDesc{
 }
 
 const (
-	CollectionService_MakeCollection_FullMethodName   = "/mmp.CollectionService/MakeCollection"
-	CollectionService_CollectionStatus_FullMethodName = "/mmp.CollectionService/CollectionStatus"
-	CollectionService_CreateCollection_FullMethodName = "/mmp.CollectionService/CreateCollection"
+	CollectionService_MakeCollection_FullMethodName          = "/mmp.CollectionService/MakeCollection"
+	CollectionService_CollectionStatus_FullMethodName        = "/mmp.CollectionService/CollectionStatus"
+	CollectionService_CreateCollection_FullMethodName        = "/mmp.CollectionService/CreateCollection"
+	CollectionService_UpdateCollection_FullMethodName        = "/mmp.CollectionService/UpdateCollection"
+	CollectionService_TimeoutCollection_FullMethodName       = "/mmp.CollectionService/TimeoutCollection"
+	CollectionService_UpdateTimeoutCollection_FullMethodName = "/mmp.CollectionService/UpdateTimeoutCollection"
 )
 
 // CollectionServiceClient is the client API for CollectionService service.
@@ -122,6 +125,9 @@ type CollectionServiceClient interface {
 	MakeCollection(ctx context.Context, in *CreateCollectionRequest, opts ...grpc.CallOption) (*CollectionResponse, error)
 	CollectionStatus(ctx context.Context, in *CollectionResponse, opts ...grpc.CallOption) (*CollectionResponse, error)
 	CreateCollection(ctx context.Context, in *InsertTransactionRequest, opts ...grpc.CallOption) (*CollectionResponse, error)
+	UpdateCollection(ctx context.Context, in *CollectionResponse, opts ...grpc.CallOption) (*CollectionResponse, error)
+	TimeoutCollection(ctx context.Context, in *CollectionStatusAPIRequest, opts ...grpc.CallOption) (*CollectionResponse, error)
+	UpdateTimeoutCollection(ctx context.Context, in *CollectionStatusAPIRequest, opts ...grpc.CallOption) (*CollectionResponse, error)
 }
 
 type collectionServiceClient struct {
@@ -162,6 +168,36 @@ func (c *collectionServiceClient) CreateCollection(ctx context.Context, in *Inse
 	return out, nil
 }
 
+func (c *collectionServiceClient) UpdateCollection(ctx context.Context, in *CollectionResponse, opts ...grpc.CallOption) (*CollectionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CollectionResponse)
+	err := c.cc.Invoke(ctx, CollectionService_UpdateCollection_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *collectionServiceClient) TimeoutCollection(ctx context.Context, in *CollectionStatusAPIRequest, opts ...grpc.CallOption) (*CollectionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CollectionResponse)
+	err := c.cc.Invoke(ctx, CollectionService_TimeoutCollection_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *collectionServiceClient) UpdateTimeoutCollection(ctx context.Context, in *CollectionStatusAPIRequest, opts ...grpc.CallOption) (*CollectionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CollectionResponse)
+	err := c.cc.Invoke(ctx, CollectionService_UpdateTimeoutCollection_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CollectionServiceServer is the server API for CollectionService service.
 // All implementations must embed UnimplementedCollectionServiceServer
 // for forward compatibility
@@ -169,6 +205,9 @@ type CollectionServiceServer interface {
 	MakeCollection(context.Context, *CreateCollectionRequest) (*CollectionResponse, error)
 	CollectionStatus(context.Context, *CollectionResponse) (*CollectionResponse, error)
 	CreateCollection(context.Context, *InsertTransactionRequest) (*CollectionResponse, error)
+	UpdateCollection(context.Context, *CollectionResponse) (*CollectionResponse, error)
+	TimeoutCollection(context.Context, *CollectionStatusAPIRequest) (*CollectionResponse, error)
+	UpdateTimeoutCollection(context.Context, *CollectionStatusAPIRequest) (*CollectionResponse, error)
 	mustEmbedUnimplementedCollectionServiceServer()
 }
 
@@ -184,6 +223,15 @@ func (UnimplementedCollectionServiceServer) CollectionStatus(context.Context, *C
 }
 func (UnimplementedCollectionServiceServer) CreateCollection(context.Context, *InsertTransactionRequest) (*CollectionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateCollection not implemented")
+}
+func (UnimplementedCollectionServiceServer) UpdateCollection(context.Context, *CollectionResponse) (*CollectionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateCollection not implemented")
+}
+func (UnimplementedCollectionServiceServer) TimeoutCollection(context.Context, *CollectionStatusAPIRequest) (*CollectionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TimeoutCollection not implemented")
+}
+func (UnimplementedCollectionServiceServer) UpdateTimeoutCollection(context.Context, *CollectionStatusAPIRequest) (*CollectionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTimeoutCollection not implemented")
 }
 func (UnimplementedCollectionServiceServer) mustEmbedUnimplementedCollectionServiceServer() {}
 
@@ -252,6 +300,60 @@ func _CollectionService_CreateCollection_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CollectionService_UpdateCollection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CollectionResponse)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CollectionServiceServer).UpdateCollection(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CollectionService_UpdateCollection_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CollectionServiceServer).UpdateCollection(ctx, req.(*CollectionResponse))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CollectionService_TimeoutCollection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CollectionStatusAPIRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CollectionServiceServer).TimeoutCollection(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CollectionService_TimeoutCollection_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CollectionServiceServer).TimeoutCollection(ctx, req.(*CollectionStatusAPIRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CollectionService_UpdateTimeoutCollection_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CollectionStatusAPIRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CollectionServiceServer).UpdateTimeoutCollection(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CollectionService_UpdateTimeoutCollection_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CollectionServiceServer).UpdateTimeoutCollection(ctx, req.(*CollectionStatusAPIRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CollectionService_ServiceDesc is the grpc.ServiceDesc for CollectionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -270,6 +372,18 @@ var CollectionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateCollection",
 			Handler:    _CollectionService_CreateCollection_Handler,
+		},
+		{
+			MethodName: "UpdateCollection",
+			Handler:    _CollectionService_UpdateCollection_Handler,
+		},
+		{
+			MethodName: "TimeoutCollection",
+			Handler:    _CollectionService_TimeoutCollection_Handler,
+		},
+		{
+			MethodName: "UpdateTimeoutCollection",
+			Handler:    _CollectionService_UpdateTimeoutCollection_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

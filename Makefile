@@ -16,4 +16,9 @@ gen-mmp:
 gen-gateway: 
 	@protoc --go_out=. --go_opt=paths=source_relative \
     --go-grpc_out=. --go-grpc_opt=paths=source_relative \
-    api/gateway/gateway.proto 
+    api/gateway/gateway.proto
+
+gen-izb: 
+	@protoc --go_out=. --go_opt=paths=source_relative \
+    --go-grpc_out=. --go-grpc_opt=paths=source_relative \
+    api/izb/izb.proto

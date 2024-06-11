@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+option go_package = "github.com/paygodev/common/api/izb";
+
+package izb;
+
+message IZBRequest {
+    string merchant_id = 1;
+    string terminal_id = 2;
+    string merchant_name = 3;
+    string payer_name = 4;
+    string payer_mobile = 5;
+    string payer_email = 6;
+    string payer_address = 7;
+    string payment_amount = 8;
+    string user_id = 9;
+    string terminal_serial = 10;
+    string terminal_location = 11;
+    string remarks = 12;
+    string correlationID = 13;
+    string password = 14;
+}
+
+message IZBResponse {
+    string correlationID = 1;
+    string Payment_Reference_id = 2;
+    string status = 3; 
+    string status_description = 4;
+    string error = 5;
+}
+
+message IZBStatusRequest {
+    string transaction_id = 1;
+}
+
+message IZBStatusResponse {
+    string correlationID = 1;
+    string Payment_Reference_id = 2;
+    string status = 3;
+    string error = 4;
+    string bank_reference_number = 5;
+    string transactionStatus = 6;
+}
+
+service IZBService {
+    rpc Disbursement(IZBRequest) returns (IZBResponse);
+    rpc DisbursementStatus(IZBStatusRequest) returns (IZBStatusResponse);
+}

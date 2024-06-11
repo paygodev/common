@@ -27,6 +27,12 @@ message CollectionAPIRequest {
     string location = 5;
 }
 
+
+message CollectionStatusAPIRequest {
+    string transactionid = 1;
+    string mno = 2;
+}
+
 message CreateCollectionRequest {
     string phoneNumber = 1;
     string amount = 2;
@@ -78,8 +84,30 @@ message InsertTransactionRequest {
     string bankID = 18;
     string accountNumber = 19;
 }
+
+message DisbursementRequest {
+    string transactionid = 1;
+    string merchant_name = 2;
+    string payer_mobile = 3;
+    string amount = 4;
+    string terminalSerial = 5;
+    string terminalLocation = 6;
+    string reference = 7;
+    string merchantID = 8;
+    string accountNumber = 9;
+}
+
+message DisbursementResponse {
+    string transactionid = 1;
+    string bankReferenceNumber = 2;
+    string status = 3;
+}
+
 service CollectionService {
     rpc MakeCollection(CreateCollectionRequest) returns (CollectionResponse);
     rpc CollectionStatus(CollectionResponse) returns (CollectionResponse);
     rpc CreateCollection(InsertTransactionRequest) returns (CollectionResponse);
+    rpc UpdateCollection(CollectionResponse) returns (CollectionResponse);
+    rpc TimeoutCollection(CollectionStatusAPIRequest) returns (CollectionResponse);
+    rpc UpdateTimeoutCollection(CollectionStatusAPIRequest) returns (CollectionResponse);
 }
