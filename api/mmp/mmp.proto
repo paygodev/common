@@ -110,4 +110,5 @@ service CollectionService {
     rpc UpdateCollection(CollectionResponse) returns (CollectionResponse);
     rpc TimeoutCollection(CollectionStatusAPIRequest) returns (CollectionResponse);
     rpc UpdateTimeoutCollection(CollectionStatusAPIRequest) returns (CollectionResponse);
+    rpc UpdateDisbursement(DisbursementResponse) returns (DisbursementResponse);
 }

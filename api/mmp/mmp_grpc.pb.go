@@ -116,6 +116,7 @@ const (
 	CollectionService_UpdateCollection_FullMethodName        = "/mmp.CollectionService/UpdateCollection"
 	CollectionService_TimeoutCollection_FullMethodName       = "/mmp.CollectionService/TimeoutCollection"
 	CollectionService_UpdateTimeoutCollection_FullMethodName = "/mmp.CollectionService/UpdateTimeoutCollection"
+	CollectionService_UpdateDisbursement_FullMethodName      = "/mmp.CollectionService/UpdateDisbursement"
 )
 
 // CollectionServiceClient is the client API for CollectionService service.
@@ -128,6 +129,7 @@ type CollectionServiceClient interface {
 	UpdateCollection(ctx context.Context, in *CollectionResponse, opts ...grpc.CallOption) (*CollectionResponse, error)
 	TimeoutCollection(ctx context.Context, in *CollectionStatusAPIRequest, opts ...grpc.CallOption) (*CollectionResponse, error)
 	UpdateTimeoutCollection(ctx context.Context, in *CollectionStatusAPIRequest, opts ...grpc.CallOption) (*CollectionResponse, error)
+	UpdateDisbursement(ctx context.Context, in *DisbursementResponse, opts ...grpc.CallOption) (*DisbursementResponse, error)
 }
 
 type collectionServiceClient struct {
@@ -198,6 +200,16 @@ func (c *collectionServiceClient) UpdateTimeoutCollection(ctx context.Context, i
 	return out, nil
 }
 
+func (c *collectionServiceClient) UpdateDisbursement(ctx context.Context, in *DisbursementResponse, opts ...grpc.CallOption) (*DisbursementResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DisbursementResponse)
+	err := c.cc.Invoke(ctx, CollectionService_UpdateDisbursement_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CollectionServiceServer is the server API for CollectionService service.
 // All implementations must embed UnimplementedCollectionServiceServer
 // for forward compatibility
@@ -208,6 +220,7 @@ type CollectionServiceServer interface {
 	UpdateCollection(context.Context, *CollectionResponse) (*CollectionResponse, error)
 	TimeoutCollection(context.Context, *CollectionStatusAPIRequest) (*CollectionResponse, error)
 	UpdateTimeoutCollection(context.Context, *CollectionStatusAPIRequest) (*CollectionResponse, error)
+	UpdateDisbursement(context.Context, *DisbursementResponse) (*DisbursementResponse, error)
 	mustEmbedUnimplementedCollectionServiceServer()
 }
 
@@ -232,6 +245,9 @@ func (UnimplementedCollectionServiceServer) TimeoutCollection(context.Context, *
 }
 func (UnimplementedCollectionServiceServer) UpdateTimeoutCollection(context.Context, *CollectionStatusAPIRequest) (*CollectionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTimeoutCollection not implemented")
+}
+func (UnimplementedCollectionServiceServer) UpdateDisbursement(context.Context, *DisbursementResponse) (*DisbursementResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateDisbursement not implemented")
 }
 func (UnimplementedCollectionServiceServer) mustEmbedUnimplementedCollectionServiceServer() {}
 
@@ -354,6 +370,24 @@ func _CollectionService_UpdateTimeoutCollection_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CollectionService_UpdateDisbursement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DisbursementResponse)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CollectionServiceServer).UpdateDisbursement(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CollectionService_UpdateDisbursement_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CollectionServiceServer).UpdateDisbursement(ctx, req.(*DisbursementResponse))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CollectionService_ServiceDesc is the grpc.ServiceDesc for CollectionService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -384,6 +418,10 @@ var CollectionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateTimeoutCollection",
 			Handler:    _CollectionService_UpdateTimeoutCollection_Handler,
+		},
+		{
+			MethodName: "UpdateDisbursement",
+			Handler:    _CollectionService_UpdateDisbursement_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
