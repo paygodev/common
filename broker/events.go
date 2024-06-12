@@ -10,6 +10,6 @@ const (
 	UpdateCollectionEvent         = "updatecollection.event"
 	IZBDisbursementEvent          = "izbdisbursement.event"
 	IZBDisbursementStatusEvent    = "izbdisbursementstatus.event"
-	UpdateDisbursementStatusEvent = "izbdisbursementstatus.event"
+	UpdateDisbursementStatusEvent = "updatedisbursementstatus.event"
 	ZANACODisbursementEvent       = "zanacodisbursement.event"
 )
