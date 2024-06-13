@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option go_package = "github.com/paygo/common/api/sms";
+
+package api;
+
+message SMSRequest {
+    repeated int64 recipient = 1;
+    string message = 2;
+    string username = 3;
+    string password = 4;
+    string senderid = 5;
+    string source = 6;
+    string msg_ref = 7;
+}
+
+message SMSResponse {
+
+    message Response {
+        string mobile = 1;
+        string messagestatus = 2;
+        string messageid = 3;
+    }
+
+    repeated Response response = 1;
+}
+
+service SMSService {
+    rpc SendSMS(SMSRequest) returns (SMSResponse);
+}

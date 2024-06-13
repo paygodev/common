@@ -12,4 +12,5 @@ const (
 	IZBDisbursementStatusEvent    = "izbdisbursementstatus.event"
 	UpdateDisbursementStatusEvent = "updatedisbursementstatus.event"
 	ZANACODisbursementEvent       = "zanacodisbursement.event"
+	SendSMSEvent                  = "sendsms.event"
 )

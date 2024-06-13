@@ -103,6 +103,11 @@ message DisbursementResponse {
     string status = 3;
 }
 
+message SMSReq {
+    int64 phoneNumber = 1;
+    string message = 2;
+}
+
 service CollectionService {
     rpc MakeCollection(CreateCollectionRequest) returns (CollectionResponse);
     rpc CollectionStatus(CollectionResponse) returns (CollectionResponse);
