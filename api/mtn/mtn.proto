@@ -25,16 +25,16 @@ message MMPCollectionRequest {
 message CollectionRequest {
 
     message Payer {
-        string party_id_type = 1;
-        string party_id = 2;
+        string partyIdType = 1;
+        string partyId = 2;
     }
 
     string amount = 1;
-    string payee_note = 2;
-    string external_id = 3;
+    string payeeNote = 2;
+    string externalId = 3;
     string currency = 4;
     Payer payer = 5;
-    string payer_message = 6;
+    string payerMessage = 6;
 }
 
 message CollectionResponse {
@@ -52,17 +52,17 @@ message CollectionStatusRequest {
 message CollectionStatusResponse {
 
     message Payer {
-        string party_id_type = 1;
-        string party_id = 2;
+        string partyIdType = 1;
+        string partyId = 2;
     }
 
-    string financial_transaction_id = 1;
-    string external_id = 2;
+    string financialTransactionId = 1;
+    string externalId = 2;
     string amount = 3;
     string currency = 4;
     Payer payer = 5;
-    string payer_message = 6;
-    string payee_note = 7;
+    string payerMessage = 6;
+    string payeeNote = 7;
     string status = 8;
     string transactionid = 9;
     string reason = 10;
