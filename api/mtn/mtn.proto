@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+option go_package = "github.com/paygodev/common/api/mtn";
+
+package mtn;
+
+message AuthRequest {
+
+}
+
+message AuthResponse {
+    string access_token = 1;
+    string token_type = 2;
+    int64 expires_in = 3;
+}
+
+
+message MMPCollectionRequest {
+    string phoneNumber = 1;
+    string amount = 2;
+    string reference = 3;
+    string transactionid = 4;
+}
+
+message CollectionRequest {
+
+    message Payer {
+        string party_id_type = 1;
+        string party_id = 2;
+    }
+
+    string amount = 1;
+    string payee_note = 2;
+    string external_id = 3;
+    string currency = 4;
+    Payer payer = 5;
+    string payer_message = 6;
+}
+
+message CollectionResponse {
+    string transactionid = 1;
+    string status = 2;
+    string uuid = 3;
+    string message = 4;
+    string code = 5;
+}
+
+message CollectionStatusRequest {
+    string transactionid = 1;
+}
+
+message CollectionStatusResponse {
+
+    message Payer {
+        string party_id_type = 1;
+        string party_id = 2;
+    }
+
+    string financial_transaction_id = 1;
+    string external_id = 2;
+    string amount = 3;
+    string currency = 4;
+    Payer payer = 5;
+    string payer_message = 6;
+    string payee_note = 7;
+    string status = 8;
+    string transactionid = 9;
+    string reason = 10;
+}
+
+service MTNService {
+    rpc MTNAuth(AuthRequest) returns (AuthResponse);
+    rpc MTNCollection(MMPCollectionRequest) returns (CollectionResponse);
+    rpc MTNCollectionStatus(CollectionStatusRequest) returns (CollectionStatusResponse);
+}

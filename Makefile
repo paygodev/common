@@ -27,3 +27,8 @@ gen-sms:
 	@protoc --go_out=. --go_opt=paths=source_relative \
     --go-grpc_out=. --go-grpc_opt=paths=source_relative \
     api/sms/sms.proto
+
+gen-mtn: 
+	@protoc --go_out=. --go_opt=paths=source_relative \
+    --go-grpc_out=. --go-grpc_opt=paths=source_relative \
+    api/mtn/mtn.proto
