@@ -32,3 +32,8 @@ gen-mtn:
 	@protoc --go_out=. --go_opt=paths=source_relative \
     --go-grpc_out=. --go-grpc_opt=paths=source_relative \
     api/mtn/mtn.proto
+
+gen-zamtel: 
+	@protoc --go_out=. --go_opt=paths=source_relative \
+    --go-grpc_out=. --go-grpc_opt=paths=source_relative \
+    api/zamtel/zamtel.proto

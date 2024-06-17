@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+option go_package = "github.com/paygo/common/api/zamtel";
+
+package api;
+
+
+message MMPCollectionRequest {
+    string phoneNumber = 1;
+    string amount = 2;
+    string reference = 3;
+    string transactionid = 4;
+}
+
+message CollectionRequest {
+    string username = 1;
+    string password = 2;
+    string serviceid = 3;
+    string clientid = 4;
+    string amount = 5;
+    string accountno = 6;
+    string msisdn = 7;
+    string currencycode = 8;
+    string transactionid = 9;
+    string timestamp = 10;
+}
+
+message CollectionResponse {
+    string transactionid = 1;
+    string requestID = 2;
+    string status = 3;
+    string message = 4;
+}
+
+message CollectionStatusAPIRequest {
+    string username = 1;
+    string password = 2;
+    string serviceid = 3;
+    string clientid = 4;
+    string transactionid = 5;
+}
+
+message CollectionStatusRequest {
+    string transactionid = 1;
+}
+
+message CollectionStatusResponse {
+    string amount = 1;
+    string clientID = 2;
+    string MSISDN = 3;
+    string billerResponse = 4;
+    string billerResponseCode = 5;
+    string dateProcessed = 6;
+    string transactionID = 7;
+    string statusDescription = 8;
+    string requestID = 9;
+    string destinationAccountNo = 10;
+    string serviceID = 11;
+    string sourceAccountNo = 12;
+    string status = 13;
+}
+
+service ZamtelService {
+    rpc ZamtelCollection(MMPCollectionRequest) returns (CollectionResponse);
+    rpc ZamtelCollectionStatus(CollectionStatusRequest) returns (CollectionStatusResponse);
+}
